@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="assets/logo.png" type="image/x-icon">
+  <title>To-Do App</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div class="modal fade" id="cookieModal" tabindex="-1" role="dialog" aria-labelledby="cookieModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="cookieModalLabel">Cookie Consent</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              This website uses cookies to store your notes locally on your device. Do you allow us to use cookies?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Decline</button>
+              <button type="button" class="btn btn-primary" id="acceptCookiesBtn">Accept Cookies</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+  <div class="container mt-5">
+    <h1 class="text-center">To-Do App</h1>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="noteInput" placeholder="Add a new note">
+      <input type="date" class="form-control" id="noteDate">
+      <input type="time" class="form-control" id="noteTime">
+      <div class="input-group-append">
+        <button class="btn btn-primary" id="addNoteBtn">Add Note</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h3>Notes</h3>
+        <ul class="list-group" id="noteList"></ul>
+      </div>
+    </div>
+    <div class="text-right mt-3">
+      <a href="trash.html">
+        <img src="https://img.icons8.com/ios-glyphs/30/000000/trash.png" alt="Trash Icon">
+      </a>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+  <script src="scripts.js"></script>
+</body>
+</html>
