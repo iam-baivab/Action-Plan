@@ -1,3 +1,15 @@
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(function () {
+    document.querySelector(".preloader").classList.add("fade-out");
+  }, 1000);
+
+  setTimeout(function () {
+    document.querySelector(".fixed-header").style.display = "flex";
+    document.querySelector(".container").style.display = "inherit";
+    document.querySelector(".preloader").style.display = "none";
+  }, 1500);
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const cookieModal = document.getElementById("cookieModal");
   const acceptCookiesBtn = document.getElementById("acceptCookiesBtn");

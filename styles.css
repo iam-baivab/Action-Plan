@@ -4,6 +4,42 @@ body {
   color: #333;
 }
 
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+.preloader h1 {
+  font-size: 5rem;
+  color: black;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preloader img {
+  width: 150px;
+  height: 150px;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+  margin-right: 10px;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
 .fixed-header {
   position: fixed;
   top: 0;

@@ -11,7 +11,13 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
+    <div class="preloader">
+      <h1>
+          <img src="assets/favicon.png" alt="logo">
+          Action Plan
+      </h1>
+    </div>
+
     <div class="modal fade" id="cookieModal" tabindex="-1" role="dialog" aria-labelledby="cookieModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -35,7 +41,7 @@
         </div>
       </div>
 
-      <header class="fixed-header">
+      <header class="fixed-header" style="display: none;">
         <div class="left">
           <img src="assets/favicon.png" alt="Image">
           <h1>Action Plan</h1>
@@ -47,7 +53,7 @@
         </div>
       </header>
       
-  <div class="container mt-5">
+  <div class="container mt-5" style="display: none;">
     <h1 class="text-center">Action Plan</h1>
     <div class="input-group mb-3">
       <input type="text" class="form-control" id="noteInput" placeholder="Add a new note">

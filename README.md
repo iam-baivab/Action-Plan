@@ -4,7 +4,7 @@
 
 The Action Plan App is a sophisticated tool designed to help users organize their tasks efficiently. With a sleek and intuitive interface, this app empowers users to create, edit, and manage their action plans effortlessly.
 
-<img src="assets/favicon.png" height=200>
+<img src="assets/cover.png" >
 
 ## Features
 
