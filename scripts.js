@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const cookieModal = document.getElementById("cookieModal");
   const acceptCookiesBtn = document.getElementById("acceptCookiesBtn");
   const cookiesAccepted = localStorage.getItem("cookiesAccepted");
+  const resetBtn = document.getElementById('resetBtn');
+  const confirmResetBtn = document.getElementById('confirmResetBtn');
+  const resetConfirmationModal = document.getElementById('resetConfirmationModal');
 
   if (!cookiesAccepted) {
     $("#cookieModal").modal("show");
@@ -175,4 +178,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   renderNotes();
+
+  resetBtn.addEventListener('click', () => {
+    $('#resetConfirmationModal').modal('show');
+  });
+
+  confirmResetBtn.addEventListener('click', () => {
+    localStorage.removeItem('cookiesAccepted');
+    localStorage.removeItem('notes');
+    localStorage.removeItem('trash');
+    window.location.reload(); // Reload the page
+  });
 });

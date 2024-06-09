@@ -85,10 +85,14 @@ h1 {
 .trash-bin a{
   display: flex;
   align-items: center;
-  gap: 5px;
   font-size: 1.2rem;
   text-decoration: none;
   justify-content: flex-end;
+  font-weight: 500;
+}
+
+.trash-bin {
+  gap:10px;
 }
 
 a:link,
