@@ -51,13 +51,18 @@
         <ul class="list-group" id="noteList"></ul>
       </div>
     </div>
-    
+
     <div class="text-right d-flex justify-content-end mt-3 trash-bin">
-      <a href="trash.html">
+      <a href="trash.html" class="btn btn-warning">
         <span>Bin</span>
         <span class="material-symbols-outlined">delete</span>
       </a>
-      <button class="btn btn-danger ml-2" id="resetBtn">Reset</button>
+      <button class="btn btn-danger ml-2 d-flex align-items-center" id="resetBtn">
+        Reset
+        <span class="material-symbols-outlined">
+          device_reset
+        </span>
+      </button>
     </div>
 
     <div class="modal fade" id="resetConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="resetConfirmationModalLabel" aria-hidden="true">

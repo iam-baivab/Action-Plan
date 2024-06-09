@@ -85,10 +85,22 @@ h1 {
 .trash-bin a{
   display: flex;
   align-items: center;
-  font-size: 1.2rem;
   text-decoration: none;
   justify-content: flex-end;
+  font-weight: 450;
+}
+
+.trash-bin a span {
   font-weight: 500;
+}
+
+.trash-bin a .material-symbols-outlined, 
+.trash-bin button .material-symbols-outlined {
+  font-size: 1.4rem;
+}
+
+.trash-bin button {
+  gap: 5px;
 }
 
 .trash-bin {
