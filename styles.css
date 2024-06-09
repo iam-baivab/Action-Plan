@@ -100,3 +100,9 @@ a:visited {
 a:active {
   color: inherit;
 }
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
