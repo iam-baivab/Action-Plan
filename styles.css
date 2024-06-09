@@ -90,10 +90,6 @@ h1 {
   font-weight: 450;
 }
 
-.trash-bin a span {
-  font-weight: 500;
-}
-
 .trash-bin a .material-symbols-outlined, 
 .trash-bin button .material-symbols-outlined {
   font-size: 1.4rem;
