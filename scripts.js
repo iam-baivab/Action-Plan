@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
             margin: '20px',
           },
         }).showToast();
-      }, 3000);
+      }, 2000);
     }
   });
 
