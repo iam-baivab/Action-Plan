@@ -52,9 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let noteContent = `${note.content}`;
         if (note.date || note.time) {
-          noteContent += `<br><small>${note.date || ""} ${
-            note.time || ""
-          }</small>`;
+          noteContent += `<br><small>${note.date || ""} ${note.time || ""}</small>`;
         }
 
         li.innerHTML = `
@@ -131,6 +129,34 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (noteList) {
+    let holdTimeout;
+    let heldItem = null;
+
+    noteList.addEventListener("mousedown", (e) => {
+      if (e.target.tagName === "LI") {
+        heldItem = e.target;
+        holdTimeout = setTimeout(() => {
+          heldItem.draggable = true;
+        }, 2000);
+      }
+    });
+
+    noteList.addEventListener("mouseup", () => {
+      clearTimeout(holdTimeout);
+      if (heldItem) {
+        heldItem.draggable = false;
+        heldItem = null;
+      }
+    });
+
+    noteList.addEventListener("mouseleave", () => {
+      clearTimeout(holdTimeout);
+      if (heldItem) {
+        heldItem.draggable = false;
+        heldItem = null;
+      }
+    });
+
     noteList.addEventListener("click", (e) => {
       const index = e.target.parentElement.dataset.index;
 
