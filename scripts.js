@@ -74,7 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
           duration: 5000,
           gravity: "bottom",
           position: "center",
-          backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+          backgroundColor: "linear-gradient(to right, #00bcd4, #03a9f4)",
+          style: {
+            margin: '20px',
+          },
         }).showToast();
       }, 3000);
     }
