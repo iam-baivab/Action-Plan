@@ -1,28 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
     const cookieModal = document.getElementById('cookieModal');
     const acceptCookiesBtn = document.getElementById('acceptCookiesBtn');
-  
-    // Check if cookies are accepted
     const cookiesAccepted = localStorage.getItem('cookiesAccepted');
   
-    // Show the cookie consent modal if cookies are not accepted
     if (!cookiesAccepted) {
       $('#cookieModal').modal('show');
     }
   
-    // Handle user's response to cookie consent
     acceptCookiesBtn.addEventListener('click', () => {
       localStorage.setItem('cookiesAccepted', true);
       $('#cookieModal').modal('hide');
     });
   
-    // Existing notes app functionality
     const noteInput = document.getElementById('noteInput');
     const noteDate = document.getElementById('noteDate');
     const noteTime = document.getElementById('noteTime');
     const addNoteBtn = document.getElementById('addNoteBtn');
     const noteList = document.getElementById('noteList');
-    const trashList = document.getElementById('trashList');
   
     let notes = JSON.parse(localStorage.getItem('notes')) || [];
     let trash = JSON.parse(localStorage.getItem('trash')) || [];
@@ -64,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         duration: 3000,
         close: true,
         gravity: 'top',
-        position: 'center',
-        backgroundColor: type === 'error' ? '#ff6347' : '#5cb85c'
+        position: 'right',
+        backgroundColor: type === 'error' ? '#FF0000' : '#5cb85c'
       }).showToast();
     }
   

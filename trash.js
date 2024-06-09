@@ -51,10 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const index = e.target.parentElement.dataset.index;
         const note = trash.splice(index, 1)[0];
         delete note.trashDate;
-        notes.push(note); // Move the note from trash to notes array
+        notes.push(note);
         saveToLocalStorage();
-        cleanUpTrash(); // Clean up the trash list
-        renderTrash(); // Refresh the trash list
+        cleanUpTrash();
+        renderTrash();
       }
     });
 
