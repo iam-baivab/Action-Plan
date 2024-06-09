@@ -1,5 +1,5 @@
 # Action Plan
-[![MIT License][license-shield]][license-url]
+[![Apache 2.0 License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
 The Action Plan App is a sophisticated tool designed to help users organize their tasks efficiently. With a sleek and intuitive interface, this app empowers users to create, edit, and manage their action plans effortlessly.
@@ -61,9 +61,9 @@ Please ensure your code adheres to the existing code style and conventions.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Apache License 2.0](LICENSE).
 
-[license-shield]: https://img.shields.io/badge/License-MIT-red.svg
+[license-shield]: https://img.shields.io/badge/License-Apache%202.0-red.svg
 [license-url]: https://github.com/iam-baivab/News-Scraping-using-BeautyfulSoup-Selenium-with-Django/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat&logo=linkedin&colorB=blue
 [linkedin-url]: https://www.linkedin.com/in/baivabsarkar/
