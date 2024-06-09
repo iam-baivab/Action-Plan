@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   const trashList = document.getElementById('trashList');
+  const confirmationModal = document.getElementById('confirmationModal');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+  const confirmationMessage = document.getElementById('confirmationMessage');
 
   let trash = JSON.parse(localStorage.getItem('trash')) || [];
   let notes = JSON.parse(localStorage.getItem('notes')) || [];
@@ -28,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
           ${noteContent}
           <br><small>Deletes in: ${daysLeft} days</small>
           <button class="btn btn-sm btn-success float-right restore-btn">Restore</button>
+          <button class="btn btn-sm btn-danger float-right delete-btn">Delete</button>
         `;
         trashList.appendChild(li);
       });
@@ -47,14 +51,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (trashList) {
     trashList.addEventListener('click', (e) => {
+      const index = e.target.parentElement.dataset.index;
+
       if (e.target.classList.contains('restore-btn')) {
-        const index = e.target.parentElement.dataset.index;
         const note = trash.splice(index, 1)[0];
         delete note.trashDate;
         notes.push(note);
         saveToLocalStorage();
         cleanUpTrash();
         renderTrash();
+      }
+
+      if (e.target.classList.contains('delete-btn')) {
+        const noteContent = trash[index].content;
+        confirmationMessage.textContent = `Are you sure you want to permanently delete "${noteContent}"? This action cannot be undone.`;
+        $('#confirmationModal').modal('show');
+
+        confirmDeleteBtn.addEventListener('click', () => {
+          trash.splice(index, 1);
+          saveToLocalStorage();
+          cleanUpTrash();
+          renderTrash();
+          $('#confirmationModal').modal('hide');
+        });
       }
     });
 
