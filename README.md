@@ -15,6 +15,13 @@ The Action Plan App is a sophisticated tool designed to help users organize thei
 5. **Permanently Delete Notes**: Notes in the trash bin can be permanently deleted.
 6. **Reset**: Option to reset the app, clearing all notes and settings.
 
+## UI
+<img src="assets/cookie.png" >
+<img src="assets/home.png" >
+<img src="assets/trash.png" >
+<img src="assets/delete.png" >
+<img src="assets/reset.png" >
+
 ## Technologies Used
 
 - HTML
