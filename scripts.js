@@ -277,6 +277,16 @@ document.addEventListener("DOMContentLoaded", () => {
         renderNotes();
       }
     });
+
+    new Sortable(noteList, {
+      animation: 150,
+      onEnd: () => {
+        notes = Array.from(noteList.children).map(
+          (li) => notes[li.dataset.index]
+        );
+        saveToLocalStorage();
+      },
+    });    
   }
 
   renderNotes();
