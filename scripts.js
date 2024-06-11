@@ -70,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
         noteList.appendChild(li);
   
-        // Attach event listeners for done and edit buttons
         li.querySelector(".done-btn").addEventListener("click", () => {
           notes[index].completed = !notes[index].completed;
           saveToLocalStorage();
@@ -92,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
             <button class="btn btn-sm btn-secondary float-right cancel-btn">Cancel</button>
           `;
   
-          // Attach event listeners for save and cancel buttons
           editButtons.querySelector(".save-btn").addEventListener("click", () => {
             const newContent = editContent.querySelector(".edit-content").value;
             const newDate = editContent.querySelector(".edit-date").value;
@@ -112,8 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     }
-  }
-  
+  }  
 
   function showToast(message, type) {
     Toastify({
@@ -140,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
             margin: '20px',
           },
         }).showToast();
-      }, 2000);
+      }, 1000);
     }
   });
 
@@ -178,64 +175,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (noteList) {
     noteList.addEventListener("click", (e) => {
-      const index = e.target.parentElement.dataset.index;
+        const target = e.target;
+        if (target.classList.contains("delete-btn")) {
+            const index = target.parentElement.parentElement.dataset.index;
+            const note = notes.splice(index, 1)[0];
+            note.trashDate = new Date().toISOString();
+            trash.push(note);
+            saveToLocalStorage();
+            renderNotes();
+        }
 
-      if (e.target.classList.contains("delete-btn")) {
-        const note = notes.splice(index, 1)[0];
-        note.trashDate = new Date().toISOString();
-        trash.push(note);
-        saveToLocalStorage();
-        renderNotes();
-      }
+        if (e.target.classList.contains("done-btn")) {
+          notes[index].completed = !notes[index].completed;
+          saveToLocalStorage();
+          renderNotes();
+        }
 
-      if (e.target.classList.contains("done-btn")) {
-        notes[index].completed = !notes[index].completed;
-        saveToLocalStorage();
-        renderNotes();
-      }
+        if (target.classList.contains("edit-btn")) {
+            const index = target.parentElement.parentElement.dataset.index;
+            const li = target.parentElement.parentElement;
+            li.innerHTML = `
+              <div class="note-content">
+                <input type="text" class="form-control edit-content" value="${notes[index].content}">
+                <input type="date" class="form-control edit-date" value="${notes[index].date}">
+                <input type="time" class="form-control edit-time" value="${notes[index].time}">
+              </div>
+              <div class="note-buttons">
+                <button class="btn btn-sm btn-primary float-right save-btn">Save</button>
+                <button class="btn btn-sm btn-secondary float-right cancel-btn">Cancel</button>
+              </div>
+            `;
+        }
 
-      if (e.target.classList.contains("edit-btn")) {
-        const li = e.target.parentElement.parentElement;
-        li.innerHTML = `
-          <div class="note-content">
-            <input type="text" class="form-control edit-content" value="${notes[index].content}">
-            <input type="date" class="form-control edit-date" value="${notes[index].date}">
-            <input type="time" class="form-control edit-time" value="${notes[index].time}">
-          </div>
-          <div class="note-buttons">
-            <button class="btn btn-sm btn-primary float-right save-btn">Save</button>
-            <button class="btn btn-sm btn-secondary float-right cancel-btn">Cancel</button>
-          </div>
-        `;
-      }
+        if (target.classList.contains("save-btn")) {
+            const index = target.parentElement.parentElement.dataset.index;
+            const li = target.parentElement.parentElement;
+            const newContent = li.querySelector(".edit-content").value;
+            const newDate = li.querySelector(".edit-date").value;
+            const newTime = li.querySelector(".edit-time").value;
 
-      if (e.target.classList.contains("save-btn")) {
-        const li = e.target.parentElement.parentElement;
-        const newContent = li.querySelector(".edit-content").value;
-        const newDate = li.querySelector(".edit-date").value;
-        const newTime = li.querySelector(".edit-time").value;
+            notes[index].content = newContent;
+            notes[index].date = newDate;
+            notes[index].time = newTime;
 
-        notes[index].content = newContent;
-        notes[index].date = newDate;
-        notes[index].time = newTime;
+            saveToLocalStorage();
+            renderNotes();
+        }
 
-        saveToLocalStorage();
-        renderNotes();
-      }
-
-      if (e.target.classList.contains("cancel-btn")) {
-        renderNotes();
-      }
-    });
-
-    new Sortable(noteList, {
-      animation: 150,
-      onEnd: () => {
-        notes = Array.from(noteList.children).map(
-          (li) => notes[li.dataset.index]
-        );
-        saveToLocalStorage();
-      },
+        if (target.classList.contains("cancel-btn")) {
+            renderNotes();
+        }
     });
   }
 
@@ -249,6 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.removeItem('cookiesAccepted');
     localStorage.removeItem('notes');
     localStorage.removeItem('trash');
-    window.location.reload(); // Reload the page
+    window.location.reload();
   });
 });
