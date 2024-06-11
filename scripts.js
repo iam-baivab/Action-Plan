@@ -1,3 +1,5 @@
+let hoverTimeout;
+
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(function () {
     document.querySelector(".preloader").classList.add("fade-out");
@@ -52,9 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
   
         let noteContent = `${note.content}`;
         if (note.date || note.time) {
-          noteContent += `<br><small>${note.date || ""} ${
-            note.time || ""
-          }</small>`;
+          const dateString = note.date ? new Date(note.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '';
+          noteContent += `<br><small>${dateString} ${note.time || ""}</small>`;
         }
   
         li.innerHTML = `
@@ -123,8 +124,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }).showToast();
   }
 
-  let hoverTimeout;
+  hoverTimeout = setTimeout(() => {
+    Toastify({
+      text: "Tip: You can change the position of any notes by dragging them.",
+      duration: 5000,
+      gravity: "bottom",
+      position: "center",
+      backgroundColor: "linear-gradient(to right, #00bcd4, #03a9f4)",
+      style: {
+        margin: '20px',
+      },
+    }).showToast();
+  }, 2000);
+
   noteList.addEventListener("mouseover", (e) => {
+    if (e.target.tagName === "LI") {
+      clearTimeout(hoverTimeout);
+    }
+  });
+
+  noteList.addEventListener("mouseout", (e) => {
     if (e.target.tagName === "LI") {
       hoverTimeout = setTimeout(() => {
         Toastify({
@@ -138,12 +157,6 @@ document.addEventListener("DOMContentLoaded", () => {
           },
         }).showToast();
       }, 1000);
-    }
-  });
-
-  noteList.addEventListener("mouseout", (e) => {
-    if (e.target.tagName === "LI") {
-      clearTimeout(hoverTimeout);
     }
   });
 
@@ -175,56 +188,87 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (noteList) {
     noteList.addEventListener("click", (e) => {
-        const target = e.target;
-        if (target.classList.contains("delete-btn")) {
-            const index = target.parentElement.parentElement.dataset.index;
-            const note = notes.splice(index, 1)[0];
-            note.trashDate = new Date().toISOString();
-            trash.push(note);
-            saveToLocalStorage();
-            renderNotes();
+      const target = e.target;
+      if (target.classList.contains("delete-btn")) {
+        const index = target.parentElement.parentElement.dataset.index;
+        const note = notes.splice(index, 1)[0];
+        note.trashDate = new Date().toISOString();
+        trash.push(note);
+        saveToLocalStorage();
+        renderNotes();
+      }
+
+      if (e.target.classList.contains("done-btn")) {
+        notes[index].completed = !notes[index].
+        completed;
+        saveToLocalStorage();
+        renderNotes();
+      }
+
+      if (target.classList.contains("edit-btn")) {
+        const index = target.parentElement.parentElement.dataset.index;
+        const li = target.parentElement.parentElement;
+        li.innerHTML = `
+          <div class="note-content">
+            <input type="text" class="form-control edit-content" value="${notes[index].content}">
+            <input type="date" class="form-control edit-date" value="${notes[index].date}">
+            <input type="time" class="form-control edit-time" value="${notes[index].time}">
+          </div>
+          <div class="note-buttons">
+            <button class="btn btn-sm btn-primary float-right save-btn">Save</button>
+            <button class="btn btn-sm btn-secondary float-right cancel-btn">Cancel</button>
+          </div>
+        `;
+
+        const editDateInput = li.querySelector(".edit-date");
+        const editTimeInput = li.querySelector(".edit-time");
+        if (notes[index].date) {
+          const dateParts = notes[index].date.split("-");
+          const year = dateParts[0];
+          const month = dateParts[1].padStart(2, "0");
+          const day = dateParts[2].padStart(2, "0");
+          editDateInput.value = `${year}-${month}-${day}`;
+        }
+        if (notes[index].time) {
+          editTimeInput.value = notes[index].time;
         }
 
-        if (e.target.classList.contains("done-btn")) {
-          notes[index].completed = !notes[index].completed;
+        editButtons.querySelector(".save-btn").addEventListener("click", () => {
+          const newContent = li.querySelector(".edit-content").value;
+          const newDate = li.querySelector(".edit-date").value;
+          const newTime = li.querySelector(".edit-time").value;
+
+          notes[index].content = newContent;
+          notes[index].date = newDate;
+          notes[index].time = newTime;
+
           saveToLocalStorage();
           renderNotes();
-        }
+        });
 
-        if (target.classList.contains("edit-btn")) {
-            const index = target.parentElement.parentElement.dataset.index;
-            const li = target.parentElement.parentElement;
-            li.innerHTML = `
-              <div class="note-content">
-                <input type="text" class="form-control edit-content" value="${notes[index].content}">
-                <input type="date" class="form-control edit-date" value="${notes[index].date}">
-                <input type="time" class="form-control edit-time" value="${notes[index].time}">
-              </div>
-              <div class="note-buttons">
-                <button class="btn btn-sm btn-primary float-right save-btn">Save</button>
-                <button class="btn btn-sm btn-secondary float-right cancel-btn">Cancel</button>
-              </div>
-            `;
-        }
+        editButtons.querySelector(".cancel-btn").addEventListener("click", () => {
+          renderNotes();
+        });
+      }
 
-        if (target.classList.contains("save-btn")) {
-            const index = target.parentElement.parentElement.dataset.index;
-            const li = target.parentElement.parentElement;
-            const newContent = li.querySelector(".edit-content").value;
-            const newDate = li.querySelector(".edit-date").value;
-            const newTime = li.querySelector(".edit-time").value;
+      if (target.classList.contains("save-btn")) {
+        const index = target.parentElement.parentElement.dataset.index;
+        const li = target.parentElement.parentElement;
+        const newContent = li.querySelector(".edit-content").value;
+        const newDate = li.querySelector(".edit-date").value;
+        const newTime = li.querySelector(".edit-time").value;
 
-            notes[index].content = newContent;
-            notes[index].date = newDate;
-            notes[index].time = newTime;
+        notes[index].content = newContent;
+        notes[index].date = newDate;
+        notes[index].time = newTime;
 
-            saveToLocalStorage();
-            renderNotes();
-        }
+        saveToLocalStorage();
+        renderNotes();
+      }
 
-        if (target.classList.contains("cancel-btn")) {
-            renderNotes();
-        }
+      if (target.classList.contains("cancel-btn")) {
+        renderNotes();
+      }
     });
   }
 

@@ -123,6 +123,10 @@ h1 {
   margin-bottom: 15px;
 }
 
+.list-group-item.weekend {
+  background-color: red;
+}
+
 .list-group-item {
   cursor: pointer;
   border-radius: 5px;
