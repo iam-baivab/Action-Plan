@@ -49,25 +49,71 @@ document.addEventListener("DOMContentLoaded", () => {
         li.className = `list-group-item ${note.completed ? "completed" : ""}`;
         li.dataset.index = index;
         li.draggable = true;
-
+  
         let noteContent = `${note.content}`;
         if (note.date || note.time) {
           noteContent += `<br><small>${note.date || ""} ${
             note.time || ""
           }</small>`;
         }
-
+  
         li.innerHTML = `
+          <div class="note-content">
             ${noteContent}
+          </div>
+          <div class="note-buttons">
             <button class="btn btn-sm btn-primary float-right save-btn d-none">Save</button>
             <button class="btn btn-sm btn-secondary float-right edit-btn">Edit</button>
             <button class="btn btn-sm btn-success float-right done-btn">Done</button>
             <button class="btn btn-sm btn-danger float-right delete-btn">Delete</button>
-          `;
+          </div>
+        `;
         noteList.appendChild(li);
+  
+        // Attach event listeners for done and edit buttons
+        li.querySelector(".done-btn").addEventListener("click", () => {
+          notes[index].completed = !notes[index].completed;
+          saveToLocalStorage();
+          renderNotes();
+        });
+  
+        li.querySelector(".edit-btn").addEventListener("click", () => {
+          const editContent = li.querySelector(".note-content");
+          const editButtons = li.querySelector(".note-buttons");
+          
+          editContent.innerHTML = `
+            <input type="text" class="form-control edit-content" value="${notes[index].content}">
+            <input type="date" class="form-control edit-date" value="${notes[index].date}">
+            <input type="time" class="form-control edit-time" value="${notes[index].time}">
+          `;
+          
+          editButtons.innerHTML = `
+            <button class="btn btn-sm btn-primary float-right save-btn">Save</button>
+            <button class="btn btn-sm btn-secondary float-right cancel-btn">Cancel</button>
+          `;
+  
+          // Attach event listeners for save and cancel buttons
+          editButtons.querySelector(".save-btn").addEventListener("click", () => {
+            const newContent = editContent.querySelector(".edit-content").value;
+            const newDate = editContent.querySelector(".edit-date").value;
+            const newTime = editContent.querySelector(".edit-time").value;
+  
+            notes[index].content = newContent;
+            notes[index].date = newDate;
+            notes[index].time = newTime;
+  
+            saveToLocalStorage();
+            renderNotes();
+          });
+  
+          editButtons.querySelector(".cancel-btn").addEventListener("click", () => {
+            renderNotes();
+          });
+        });
       });
     }
   }
+  
 
   function showToast(message, type) {
     Toastify({
@@ -149,18 +195,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (e.target.classList.contains("edit-btn")) {
-        const li = e.target.parentElement;
+        const li = e.target.parentElement.parentElement;
         li.innerHTML = `
+          <div class="note-content">
             <input type="text" class="form-control edit-content" value="${notes[index].content}">
             <input type="date" class="form-control edit-date" value="${notes[index].date}">
             <input type="time" class="form-control edit-time" value="${notes[index].time}">
+          </div>
+          <div class="note-buttons">
             <button class="btn btn-sm btn-primary float-right save-btn">Save</button>
             <button class="btn btn-sm btn-secondary float-right cancel-btn">Cancel</button>
-          `;
+          </div>
+        `;
       }
 
       if (e.target.classList.contains("save-btn")) {
-        const li = e.target.parentElement;
+        const li = e.target.parentElement.parentElement;
         const newContent = li.querySelector(".edit-content").value;
         const newDate = li.querySelector(".edit-date").value;
         const newTime = li.querySelector(".edit-time").value;
