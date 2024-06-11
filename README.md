@@ -27,6 +27,9 @@ The Action Plan App is a sophisticated tool designed to help users organize thei
 - HTML
 - CSS (Bootstrap for styling)
 - JavaScript (jQuery for enhanced functionality)
+- Sortable JS (For drag-and-drop functionality)
+- Popper JS (For positioning tooltips and popovers)
+- Toastify JS (For toast notifications)
 
 ## Getting Started
 
