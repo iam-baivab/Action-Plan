@@ -54,8 +54,13 @@ document.addEventListener("DOMContentLoaded", () => {
   
         let noteContent = `${note.content}`;
         if (note.date || note.time) {
-          const dateString = note.date ? new Date(note.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '';
-          noteContent += `<br><small>${dateString} ${note.time || ""}</small>`;
+          const date = note.date ? new Date(note.date) : null;
+          const dateString = date ? date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : '';
+          const dayOfWeek = date ? date.getDay() : null;
+          const dayColor = dayOfWeek === 0 || dayOfWeek === 6 ? 'color: red;' : ''; // Red color for Sunday (0) and Saturday (6)
+          const dayWord = dateString.split(',')[0]; // Extract the day word from the full date string
+          const formattedDate = dateString.replace(dayWord, `<span style="${dayColor}">${dayWord}</span>`); // Wrap the day word in a span with the specified color
+          noteContent += `<br><small>${formattedDate} ${note.time || ""}</small>`;
         }
   
         li.innerHTML = `
@@ -65,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="note-buttons">
             <button class="btn btn-sm btn-primary float-right save-btn d-none">Save</button>
             <button class="btn btn-sm btn-secondary float-right edit-btn">Edit</button>
-            <button class="btn btn-sm btn-success float-right done-btn">Done</button>
+            <button class="btn btn-sm btn-success float-right done-btn">${note.completed ? 'Undone' : 'Done'}</button>
             <button class="btn btn-sm btn-danger float-right delete-btn">Delete</button>
           </div>
         `;
@@ -75,7 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
           notes[index].completed = !notes[index].completed;
           saveToLocalStorage();
           renderNotes();
-        });
+          const doneButton = li.querySelector(".done-btn");
+          doneButton.textContent = notes[index].completed ? 'Undone' : 'Done';
+        });        
   
         li.querySelector(".edit-btn").addEventListener("click", () => {
           const editContent = li.querySelector(".note-content");
